@@ -18,7 +18,7 @@ router.post('/', (req,res)=>{
     let operador = req.body.operador;
 
     let resultado;
-    if(operador == '+') resultado = operando1 + operando2;
+    if(operador == '+') resultado = Number(operando1) + Number(operando2);
     else if(operador == '-') resultado = operando1 - operando2;
     else if(operador =='*') resultado = operando1 * operando2;
     else if(operador == '/') resultado = operando1 / operando2;
