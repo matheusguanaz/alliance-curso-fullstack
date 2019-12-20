@@ -18,8 +18,8 @@
           <font-awesome-icon icon="pen"/>
         </b-button>
       </template>
-      <template slot="cell(actionDelete)" slot-scope="{ item: {codigo}}">
-        <b-button v-on:click="excluirAtivo(codigo)">
+      <template slot="cell(actionDelete)" slot-scope="{ item}">
+        <b-button v-on:click="beforeExcluirAtivo(item)">
           <font-awesome-icon icon="trash"/>
         </b-button>
       </template>
@@ -42,17 +42,25 @@
       @ok="editarAtivo">
       <FormAtivos v-model="ativoAtual"/>
     </b-modal>
+    <b-modal id="excluirAtivo" 
+      title='Excluir Ativo' 
+      ok-title="Excluir"
+      cancel-title="Cancelar"
+      @ok="excluirAtivo">
+      <FormExcluirAtivos v-model="ativoAtual"/>
+    </b-modal>
     </div>
 </template>
 
 <script>
 import FormAtivos from '../components/FormAtivos';
+import FormExcluirAtivos from '../components/FormExcluirAtivo';
 import axios from 'axios';
 
 
 
 export default {
-  components:{FormAtivos},
+  components:{FormAtivos,FormExcluirAtivos},
   data : ()=>{
     return{
       ativoAtual:{
@@ -87,10 +95,28 @@ export default {
   },
   methods: {
     async beforeExcluirAtivo(ativo){
-      return ativo;
+      
+       this.ativoAtual = {
+            codigo: ativo.codigo,
+            descricao: ativo.descricao,
+            isNew: false
+          }
+          
+      this.$root.$emit('bv::show::modal', 'excluirAtivo');
     },
     async excluirAtivo(){
-
+      /*let payload = {
+        codigo: this.ativoAtual.codigo,
+        descricao: this.ativoAtual.descricao 
+      };*/
+      console.log(this.ativoAtual.codigo);
+      try {
+            await axios.delete(`http://localhost:3000/ativos/${this.ativoAtual.codigo}`);
+            await this.carregaAtivos();
+          }catch(err) {
+            
+              alert(this.ativoAtual.codigo);
+            }
     },
        async beforeEditaAtivo(ativo){
           this.ativoAtual = {

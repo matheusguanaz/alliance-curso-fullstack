@@ -46,6 +46,18 @@ router.put('/:codigo', async (req,res)=>{
     res.send();
 });
 
+router.delete('/:codigo', async (req,res) =>{
+    const client = criaClient();
+    let codigo = req.params.codigo;
+    let sql = `delete from ativos where codigo='${codigo}'`;
+    await client.connect();
+    await client.query(sql);
+    await client.end();
+
+    res.status(204);
+    res.send();
+});
+
 
 function criaClient(){
     return new Client({
