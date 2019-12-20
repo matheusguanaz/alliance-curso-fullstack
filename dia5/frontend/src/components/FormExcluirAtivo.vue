@@ -2,7 +2,7 @@
     <b-form>
         <b-form-group
             id="input-codigo"
-            label="Código"
+            label="Deseja mesmo apagar o Seguinte ativo?"
             label-for="txtCodigo"
             :disabled="!content.isNew"
         >
