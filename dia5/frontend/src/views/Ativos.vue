@@ -109,7 +109,6 @@ export default {
         codigo: this.ativoAtual.codigo,
         descricao: this.ativoAtual.descricao 
       };*/
-      console.log(this.ativoAtual.codigo);
       try {
             await axios.delete(`http://localhost:3000/ativos/${this.ativoAtual.codigo}`);
             await this.carregaAtivos();
